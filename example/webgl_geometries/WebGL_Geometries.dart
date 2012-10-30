@@ -1,8 +1,8 @@
 import 'dart:html';
 import 'dart:math' as Math;
-import 'package:three.dart/ThreeD.dart';
-import 'package:three.dart/extras/ImageUtils.dart' as ImageUtils;
-import 'package:three.dart/extras/SceneUtils.dart' as SceneUtils;
+import 'package:three/three.dart';
+import 'package:three/extras/image_utils.dart' as ImageUtils;
+import 'package:three/extras/scene_utils.dart' as SceneUtils;
 
 class WebGL_Geometries  {
   Element container;
@@ -34,12 +34,12 @@ class WebGL_Geometries  {
     scene.add( light );
 
     var map = ImageUtils.loadTexture( 'textures/ash_uvgrid01.jpg' );
-    map.wrapS = map.wrapT = Three.RepeatWrapping;
+    map.wrapS = map.wrapT = RepeatWrapping;
     map.anisotropy = 16;
 
     var materials = [
-                 new MeshLambertMaterial( ambient: 0xbbbbbb, map: map, side: Three.DoubleSide ),
-                 new MeshBasicMaterial( color: 0xffffff, wireframe: true, transparent: true, opacity: 0.1, side: Three.DoubleSide )
+                 new MeshLambertMaterial( ambient: 0xbbbbbb, map: map, side: DoubleSide ),
+                 new MeshBasicMaterial( color: 0xffffff, wireframe: true, transparent: true, opacity: 0.1, side: DoubleSide )
                  ];
 
     var object;

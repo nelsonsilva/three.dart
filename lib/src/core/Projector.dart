@@ -8,7 +8,7 @@ part of ThreeD;
  * Ported to Dart from JS by:
  * @author rob silverton / http://www.unwrong.com/
  * @author nelson silva / http://www.inevo.pt
- * 
+ *
  * updated to 81ef5c3b32 - Made Projector.projectObject more open for custom rendererers.
  */
 
@@ -107,7 +107,7 @@ class Projector {
       var object = parent.children[ c ];
 
       if ( !object.visible ) continue;
-      
+
       if ( object is Light ) {
 
         _renderData.lights.add( object );
@@ -119,7 +119,7 @@ class Projector {
           _object = getNextObjectInPool();
           _object.object = object;
 
-          if ( object.renderDepth !== null ) {
+          if ( object.renderDepth != null ) {
 
             _object.z = object.renderDepth;
 
@@ -142,7 +142,7 @@ class Projector {
 
         // TODO: Find an elegant and performant solution and remove this dupe code.
 
-        if ( object.renderDepth !== null ) {
+        if ( object.renderDepth != null ) {
 
           _object.z = object.renderDepth;
 
@@ -180,7 +180,7 @@ class Projector {
       _projectObject( object );
     }
   }
-  
+
   ProjectorRenderData projectGraph( Object3D root, bool sort ) {
     _objectCount = 0;
 
@@ -242,9 +242,9 @@ class Projector {
     _viewProjectionMatrix.multiply( camera.projectionMatrix, camera.matrixWorldInverse );
 
     _frustum.setFromMatrix( _viewProjectionMatrix );
-    
+
     _renderData = projectGraph( scene, false );
-    
+
     _renderData.objects.forEach((o) {
 
       object = o.object;
@@ -301,7 +301,7 @@ class Projector {
                   ( ( v3.positionScreen.x - v1.positionScreen.x ) * ( v2.positionScreen.y - v1.positionScreen.y ) -
                     ( v3.positionScreen.y - v1.positionScreen.y ) * ( v2.positionScreen.x - v1.positionScreen.x ) ) < 0);
 
-              if ( side == Three.DoubleSide || visible == ( side == Three.FrontSide ) ) {
+              if ( side == DoubleSide || visible == ( side == FrontSide ) ) {
 
 
               _face = getNextFace3InPool();
@@ -332,7 +332,7 @@ class Projector {
                   ( v2.positionScreen.x - v3.positionScreen.x ) * ( v4.positionScreen.y - v3.positionScreen.y ) -
                   ( v2.positionScreen.y - v3.positionScreen.y ) * ( v4.positionScreen.x - v3.positionScreen.x ) < 0;
 
-              if ( side == Three.DoubleSide || visible == ( side == Three.FrontSide ) ) {
+              if ( side == DoubleSide || visible == ( side == FrontSide ) ) {
 
                 _face = getNextFace4InPool();
 
@@ -350,7 +350,7 @@ class Projector {
 
           _face.normalWorld.copy( face.normal );
 
-		      if ( visible == false && ( side == Three.BackSide || side == Three.DoubleSide ) ) _face.normalWorld.negate();
+		      if ( visible == false && ( side == BackSide || side == DoubleSide ) ) _face.normalWorld.negate();
           rotationMatrix.multiplyVector3( _face.normalWorld );
 
           _face.centroidWorld.copy( face.centroid );
@@ -366,7 +366,7 @@ class Projector {
             normal = _face.vertexNormalsWorld[ n ];
             normal.copy( faceVertexNormals[ n ] );
 
-            if ( !visible && ( side == Three.BackSide || side == Three.DoubleSide ) ) normal.negate();
+            if ( !visible && ( side == BackSide || side == DoubleSide ) ) normal.negate();
 
             rotationMatrix.multiplyVector3( normal );
           }
@@ -404,7 +404,7 @@ class Projector {
         _modelViewProjectionMatrix.multiplyVector4( v1.positionScreen );
 
       // Handle LineStrip and LinePieces
-        var step = object.type == Three.LinePieces ? 2 : 1;
+        var step = object.type == LinePieces ? 2 : 1;
 
         vl = vertices.length;
         for ( v = 1; v < vl; v++ ) {

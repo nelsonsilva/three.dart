@@ -3,8 +3,8 @@
  **************************************************************/
 library ShapeUtils;
 
-import "package:three.dart/ThreeD.dart";
-import '../FontUtils.dart' as FontUtils;
+import "package:three/three.dart";
+import 'package:three/extras/font_utils.dart' as FontUtils;
 
 /*
   contour - array of vector2 for contour

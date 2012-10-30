@@ -21,8 +21,8 @@
 
 library FontUtils;
 
-import "package:three.dart/ThreeD.dart";
-import "core/ShapeUtils.dart" as ShapeUtils;
+import "package:three/three.dart";
+import "core/shape_utils.dart" as ShapeUtils;
 
 var  face = "helvetiker",
      weight = "normal",
