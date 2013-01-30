@@ -1,4 +1,4 @@
-part of ThreeD;
+part of three;
 
 class WebGLRenderer implements Renderer {
 
@@ -117,9 +117,9 @@ class WebGLRenderer implements Renderer {
   bool _lightsNeedUpdate;
 
   // GL Extensions
-  OESTextureFloat _glExtensionTextureFloat;
-  OESStandardDerivatives _glExtensionStandardDerivatives;
-	EXTTextureFilterAnisotropic _glExtensionTextureFilterAnisotropic;
+  OesTextureFloat _glExtensionTextureFloat;
+  OesStandardDerivatives _glExtensionStandardDerivatives;
+	ExtTextureFilterAnisotropic _glExtensionTextureFilterAnisotropic;
 
   var maxAnisotropy;
 
@@ -267,7 +267,7 @@ class WebGLRenderer implements Renderer {
 	  maxTextureSize = _gl.getParameter( WebGLRenderingContext.MAX_TEXTURE_SIZE );
 	  maxCubemapSize = _gl.getParameter( WebGLRenderingContext.MAX_CUBE_MAP_TEXTURE_SIZE );
 
-  	maxAnisotropy = (_glExtensionTextureFilterAnisotropic != null) ? _gl.getParameter( EXTTextureFilterAnisotropic.MAX_TEXTURE_MAX_ANISOTROPY_EXT ) : 0;
+  	maxAnisotropy = (_glExtensionTextureFilterAnisotropic != null) ? _gl.getParameter( ExtTextureFilterAnisotropic.MAX_TEXTURE_MAX_ANISOTROPY_EXT ) : 0;
 
   	supportsVertexTextures = ( maxVertexTextures > 0 );
   	supportsBoneTextures = supportsVertexTextures && (_glExtensionTextureFloat != null);
@@ -1049,7 +1049,7 @@ class WebGLRenderer implements Renderer {
 
 			}
 
-			sortArray.sort( function( a, b ) { return b[ 0 ] - a[ 0 ]; } );
+			sortArray.sort( ( a, b ) { return b[ 0 ] - a[ 0 ]; } );
 
 			for ( v = 0; v < vl; v ++ ) {
 
@@ -3451,7 +3451,7 @@ class WebGLRenderer implements Renderer {
 
 		} else {
 
-			if ( webglobject.morphTargetBase ) {
+			if ( webglobject.morphTargetBase != 0 ) {
 
 				setupMorphTargets( material, geometryGroup, webglobject );
 
@@ -3645,7 +3645,7 @@ class WebGLRenderer implements Renderer {
 
 		}
 
-		if ( object.morphTargetForcedOrder.length ) {
+		if ( object.morphTargetForcedOrder.length > 0) {
 
 			// set forced order
 
@@ -3710,7 +3710,7 @@ class WebGLRenderer implements Renderer {
 
 			while ( m < material.numSupportedMorphTargets ) {
 
-				if ( activeInfluenceIndices[ m ] != null && !activeInfluenceIndices[ m ].isEmpty) {
+				if ( m < activeInfluenceIndices.length && activeInfluenceIndices[ m ] != null && !activeInfluenceIndices[ m ].isEmpty) {
 
 					influenceIndex = activeInfluenceIndices[ m ][ 0 ];
 
@@ -3767,7 +3767,7 @@ class WebGLRenderer implements Renderer {
 	// Rendering
 	render ( Scene scene, Camera camera) => _render( scene, camera);
 
-	_render ( Scene scene, Camera c, [renderTarget = null, forceClear = false] ) {
+	_render ( Scene scene, Camera c, {renderTarget: null, forceClear: false} ) {
 
 		var i, il;
 
@@ -4124,7 +4124,7 @@ class WebGLRenderer implements Renderer {
 
 		} else {
 
-			object.render( function( object ) { renderBufferImmediate( object, program, material ); } );
+			object.render( ( object ) { renderBufferImmediate( object, program, material ); } );
 
 		}
 
@@ -4413,10 +4413,10 @@ class WebGLRenderer implements Renderer {
 				}
 
 			}
-
+			webglobject.__webglActive = false;
 		}
 
-		if ( webglobject.__webglActive == null) {
+		if (!webglobject.__webglActive) {
 
 			if ( object is Mesh ) {
 
@@ -4653,7 +4653,7 @@ class WebGLRenderer implements Renderer {
 
 			if ( objlist[ o ].object == object ) {
 
-				objlist.splice( o, 1 );
+				objlist.removeRange( o, 1 );
 
 			}
 
@@ -4667,7 +4667,7 @@ class WebGLRenderer implements Renderer {
 
       if ( identical(objlist[ o ], object) ) {
 
-				objlist.splice( o, 1 );
+				objlist.removeRange( o, 1 );
 
 			}
 
@@ -4871,7 +4871,7 @@ class WebGLRenderer implements Renderer {
 
 		if ( material.morphTargets ) {
 
-			if ( ! object.__webglMorphTargetInfluences ) {
+			if ( object.__webglMorphTargetInfluences == null) {
 
 				object.__webglMorphTargetInfluences = new Float32Array( maxMorphTargets );
 
@@ -5126,7 +5126,7 @@ class WebGLRenderer implements Renderer {
 
 		uniforms["refractionRatio"].value = material.refractionRatio;
 		uniforms["combine"].value = material.combine;
-		uniforms["useRefract"].value = (material.envMap != null) && (material.envMap.mapping is CubeRefractionMapping);
+		uniforms["useRefract"].value = ((material.envMap != null) && (material.envMap.mapping is CubeRefractionMapping))? 1:0;
 
 	}
 
@@ -5433,7 +5433,7 @@ class WebGLRenderer implements Renderer {
 
 				if ( texture == null ) continue;
 
-				if ( texture.image is List && texture.image.length == 6 ) {
+				if ( (texture.image is ImageList || texture.image is WebGLImageList) && texture.image.length == 6 ) {
 
 					setCubeTexture( texture, value );
 
@@ -5918,7 +5918,7 @@ class WebGLRenderer implements Renderer {
 					int maxShadows: 0,
 					int maxBones: 0,
 					Texture map: null,
-					bool envMap: false,
+					Texture envMap: null,
 					bool lightMap: false,
 					bool bumpMap: false,
 					bool specularMap: false,
@@ -6351,7 +6351,7 @@ class WebGLRenderer implements Renderer {
 
 			if ( texture.anisotropy > 1 || ( texture["__oldAnisotropy"] != null) ) {
 
-				_gl.texParameterf( textureType, EXTTextureFilterAnisotropic.TEXTURE_MAX_ANISOTROPY_EXT, Math.min( texture.anisotropy, maxAnisotropy ) );
+				_gl.texParameterf( textureType, ExtTextureFilterAnisotropic.TEXTURE_MAX_ANISOTROPY_EXT, Math.min( texture.anisotropy, maxAnisotropy ) );
 				texture["__oldAnisotropy"] = texture.anisotropy;
 
 			}
@@ -6447,21 +6447,23 @@ class WebGLRenderer implements Renderer {
 	setCubeTexture ( Texture texture, slot ) {
 
 		if ( texture.image.length == 6 ) {
-
+		  if(texture.image is ImageList){
+		    texture.image = new WebGLImageList(texture.image);
+		  }
 			if ( texture.needsUpdate ) {
 
-				if ( ! texture.image["__webglTextureCube"] ) {
+				if ( texture.image.webglTextureCube == null ) {
 
-					texture.image["__webglTextureCube"] = _gl.createTexture();
+					texture.image.webglTextureCube = _gl.createTexture();
 
 				}
 
 				_gl.activeTexture( WebGLRenderingContext.TEXTURE0 + slot );
-				_gl.bindTexture( WebGLRenderingContext.TEXTURE_CUBE_MAP, texture.image["__webglTextureCube"] );
+				_gl.bindTexture( WebGLRenderingContext.TEXTURE_CUBE_MAP, texture.image.webglTextureCube);
 
 				_gl.pixelStorei( WebGLRenderingContext.UNPACK_FLIP_Y_WEBGL, (texture.flipY) ? 1 : 0 );
 
-				var cubeImage = [];
+				var cubeImage = new List.fixedLength(6);
 
 				for ( var i = 0; i < 6; i ++ ) {
 
@@ -6498,12 +6500,12 @@ class WebGLRenderer implements Renderer {
 
 				texture.needsUpdate = false;
 
-				if ( texture.onUpdate ) texture.onUpdate();
+				if ( texture.onUpdate != null) texture.onUpdate();
 
 			} else {
 
 				_gl.activeTexture( WebGLRenderingContext.TEXTURE0 + slot );
-				_gl.bindTexture( WebGLRenderingContext.TEXTURE_CUBE_MAP, texture.image["__webglTextureCube"] );
+				_gl.bindTexture( WebGLRenderingContext.TEXTURE_CUBE_MAP, texture.image.webglTextureCube );
 
 			}
 
@@ -6878,11 +6880,6 @@ class WebGLRenderer implements Renderer {
 			print( error );
 
 		}
-
-		// TODO(nelsonsilva) - There is a bug in getExtension since it is returning void!
-		// @see https://groups.google.com/a/dartlang.org/forum/?fromgroups=#!topic/misc/FNNgnutae5g
-		
-		/*
 		_glExtensionTextureFloat = _gl.getExtension( 'OES_texture_float' );
 		_glExtensionStandardDerivatives = _gl.getExtension( 'OES_standard_derivatives' );
 
@@ -6911,7 +6908,7 @@ class WebGLRenderer implements Renderer {
 
 		  print( 'THREE.WebGLRenderer: Anisotropic texture filtering not supported.' );
 
-		}*/
+		}
 
 	}
 
@@ -7011,11 +7008,11 @@ class WebGLObject {
 
 	WebGLObject._internal(this.object, this.opaque, this.transparent, this.buffer, this.render, this.z) ;
 
-	factory WebGLObject(Object3D object, [WebGLMaterial opaque,
+	factory WebGLObject(Object3D object, {WebGLMaterial opaque,
 	                                      WebGLMaterial transparent,
 	                                      WebGLGeometry buffer,
-	                                      bool render = true,
-	                                      num z = 0]) {
+	                                      bool render: true,
+	                                      num z: 0}) {
 	  if (object["__webglObject"] == null) {
       var webglObject = new WebGLObject._internal(object, opaque, transparent, buffer, render, z );
       object["__webglObject"] = webglObject;
@@ -7164,7 +7161,7 @@ class WebGLMaterial { // implements Material {
   var _uniforms;
   var uniformsList;
 
-  num numSupportedMorphTargets, numSupportedMorphNormals;
+  num numSupportedMorphTargets = 0, numSupportedMorphNormals = 0;
 
   // Used by ShadowMapPlugin
   bool _shadowPass;
@@ -7226,7 +7223,6 @@ class WebGLMaterial { // implements Material {
   get lights => isShaderMaterial ? (_material as ShaderMaterial).lights : false;
 
   get morphTargets => _hasMorhTargets ?  (_material as dynamic).morphTargets : false;
-
   get morphNormals => _hasMorphNormals ?  (_material as dynamic).morphNormals : false;
 
   bool get metal => isMeshPhongMaterial ? (_material as MeshPhongMaterial).metal : false; //null;
@@ -7244,7 +7240,9 @@ class WebGLMaterial { // implements Material {
   get specularMap => _hasSpecularMap ? (_material as dynamic).specularMap : null;
 
   get wireframe => !isLineBasicMaterial && !isParticleBasicMaterial && (_material as dynamic).wireframe;
-  get wireframeLinewidth => (isLineBasicMaterial) ? (_material as dynamic).wireframeLinewidth : null;
+  get wireframeLinewidth => (wireframe) ? (_material as dynamic).wireframeLinewidth : null;
+  get wireframeLinecap => (wireframe) ? (_material as dynamic).wireframeLinecap : null;
+  get wireframeLinejoin => (wireframe) ? (_material as dynamic).wireframeLinejoin : null;
 
   get linewidth => (isLineBasicMaterial) ? (_material as dynamic).linewidth : null;
   get reflectivity => (_material as dynamic).reflectivity;
@@ -7312,5 +7310,27 @@ class WebGLCamera { // implements Camera {
   get matrixWorldInverse => _camera.matrixWorldInverse;
   get projectionMatrix => _camera.projectionMatrix;
 
-  void updateMatrixWorld( [bool force=false] ) => _camera.updateMatrixWorld();
+  void updateMatrixWorld( {bool force: false} ) => _camera.updateMatrixWorld();
+}
+
+class WebGLImageList { // implements ImageList
+  ImageList _imageList;
+  var webglTextureCube;
+
+  WebGLImageList._internal(ImageList imageList) : _imageList = imageList;
+
+  factory WebGLImageList(ImageList imageList) {
+    if (imageList.props["__webglImageList"] == null) {
+      var __webglImageList = new WebGLImageList._internal(imageList);
+      imageList.props["__webglImageList"] = __webglImageList;
+    }
+
+    return imageList.props["__webglImageList"];
+
+  }
+
+  ImageElement operator [](int index) => _imageList[index];
+  void operator []=(int index, ImageElement img) { _imageList[index] = img; }
+  int get length => _imageList.length;
+
 }

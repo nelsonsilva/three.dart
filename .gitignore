@@ -1,6 +1,6 @@
 thumbs.db
 robots.txt
 .project
-*.map
+*.deps
 packages
 pubspec.lock

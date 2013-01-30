@@ -1,4 +1,4 @@
-part of ThreeD;
+part of three;
 
 class TextGeometry extends ExtrudeGeometry {
   factory TextGeometry( text, [ height = 50, // height <=> amount,
@@ -67,15 +67,15 @@ class TextGeometry extends ExtrudeGeometry {
                           extrudePath,
                           material,
                           extrudeMaterial) : super( shapes,
-                                                    amount,
-                                                    bevelThickness,
-                                                    bevelSize,
-                                                    bevelSegments,
-                                                    bevelEnabled,
-                                                    curveSegments = 12,
-                                                    steps = 1,
-                                                    bendPath,
-                                                    extrudePath,
-                                                    material,
-                                                    extrudeMaterial);
+                                                    amount: amount,
+                                                    bevelThickness: bevelThickness,
+                                                    bevelSize: bevelSize,
+                                                    bevelSegments: bevelSegments,
+                                                    bevelEnabled: bevelEnabled,
+                                                    curveSegments: curveSegments,
+                                                    steps: steps,
+                                                    bendPath: bendPath,
+                                                    extrudePath: extrudePath,
+                                                    material: material,
+                                                    extrudeMaterial: extrudeMaterial);
 }

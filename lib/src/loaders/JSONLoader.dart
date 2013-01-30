@@ -1,4 +1,4 @@
-part of ThreeD;
+part of three;
 
 /**
  * @author mrdoob / http://mrdoob.com/
@@ -24,13 +24,13 @@ class JSONLoader extends Loader {
     _loadAjaxJSON(url, callback, texturePath );
   }
 
-  _loadAjaxJSON(String url, LoadedCallback callback, String texturePath, [LoadProgressCallback callbackProgress = null] ) {
+  _loadAjaxJSON(String url, LoadedCallback callback, String texturePath, {LoadProgressCallback callbackProgress: null} ) {
 
     HttpRequest xhr = new HttpRequest();
 
     var length = 0;
 
-    xhr.on.readyStateChange.add((Event e) {
+    xhr.onReadyStateChange.listen((Event e) {
 
       if ( xhr.readyState == HttpRequest.DONE ) {
 
@@ -142,10 +142,13 @@ class JSONLoader extends Loader {
 
     }
 
+    geometry.faceUvs = new List(nUvLayers);
+    geometry.faceVertexUvs = new List(nUvLayers);
+
     for ( i = 0; i < nUvLayers; i++ ) {
 
-      geometry.faceUvs[ i ] = [];
-      geometry.faceVertexUvs[ i ] = [];
+      geometry.faceUvs[ i ] = new List(faces.length);
+      geometry.faceVertexUvs[ i ] = new List(faces.length);
 
     }
 
@@ -240,7 +243,7 @@ class JSONLoader extends Loader {
 
           uvLayer = json["uvs"][ i ];
 
-          uvs = [];
+          uvs = new List(nVertices);
 
           for ( j = 0; j < nVertices; j ++ ) {
 
@@ -368,12 +371,11 @@ class JSONLoader extends Loader {
 
       var i, l, v, vl, dstVertices, srcVertices;
 
-      l = json["morphTargets"].length;
-      for ( i = 0; i < l; i ++ ) {
+      geometry.morphTargets = new List(json["morphTargets"].length);
 
-        geometry.morphTargets[ i ] = {};
-        geometry.morphTargets[ i ].name = json["morphTargets"][ i ]["name"];
-        geometry.morphTargets[ i ].vertices = [];
+      for ( i = 0; i < geometry.morphTargets.length; i ++ ) {
+
+        geometry.morphTargets[ i ] = new MorphTarget(name: json["morphTargets"][ i ]["name"], vertices: []);
 
         dstVertices = geometry.morphTargets[ i ].vertices;
         srcVertices = json["morphTargets"][ i ]["vertices"];
@@ -398,14 +400,11 @@ class JSONLoader extends Loader {
 
       var i, l, c, cl, dstColors, srcColors, color;
 
-      l = json["morphColors"].length;
-      for ( i = 0; i < l; i++ ) {
+      geometry.morphColors = new List(json["morphColors"].length);
 
-        geometry.morphColors[ i ] = {};
-        geometry.morphColors[ i ].name = json["morphColors"][ i ]["name"];
-        geometry.morphColors[ i ].colors = [];
+      for ( i = 0; i < geometry.morphColors.length; i++ ) {
 
-        dstColors = geometry.morphColors[ i ].colors;
+        dstColors = [];
         srcColors = json["morphColors"][ i ]["colors"];
 
         cl = srcColors.length;
@@ -416,6 +415,10 @@ class JSONLoader extends Loader {
           dstColors.add( color );
 
         }
+
+        geometry.morphColors[ i ] = new MorphColors(
+            name: json["morphColors"][ i ]["name"],
+            colors: dstColors);
       }
     }
   }

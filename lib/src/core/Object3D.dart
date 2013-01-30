@@ -1,4 +1,4 @@
-part of ThreeD;
+part of three;
 
 /**
  * @author mr.doob / http://mrdoob.com/
@@ -161,7 +161,6 @@ class Object3D {
 
       object.parent = null;
       children.removeRange(index, 1);
-      // children.splice( index, 1 );
 
       // remove from scene
       Object3D scene = this;
@@ -216,7 +215,7 @@ class Object3D {
     matrixWorldNeedsUpdate = true;
   }
 
-  void updateMatrixWorld( [bool force=false] ) {
+  void updateMatrixWorld( {bool force: false} ) {
 
    if (matrixAutoUpdate) updateMatrix();
 
@@ -234,7 +233,7 @@ class Object3D {
     }
 
     // update children
-    children.forEach((c) => c.updateMatrixWorld( force ) );
+    children.forEach((c) => c.updateMatrixWorld( force: force ) );
 
   }
 

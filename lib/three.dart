@@ -1,10 +1,11 @@
-library ThreeD;
+library three;
 
 import 'dart:html';
 import 'dart:math' as Math;
-import 'dart:json';
+import 'dart:json' as JSON;
 
 import 'src/core/ThreeMath.dart' as ThreeMath;
+export 'src/core/ThreeMath.dart';
 
 // TODO - Use M1 Re-export ( see: http://code.google.com/p/dart/issues/detail?id=760)
 import 'extras/image_utils.dart' as ImageUtils;
@@ -30,6 +31,8 @@ part 'src/core/Color.dart';
 part 'src/core/Face3.dart';
 part 'src/core/Face4.dart';
 part 'src/core/Frustum.dart';
+part 'src/core/MorphColors.dart';
+part 'src/core/MorphTarget.dart';
 part 'src/core/Geometry.dart';
 part 'src/core/Vertex.dart';
 part 'src/core/Projector.dart';

@@ -1,4 +1,4 @@
-part of ThreeD;
+part of three;
 
 class SkinnedMesh extends Mesh {
 	bool useVertexTexture;
@@ -88,9 +88,8 @@ class SkinnedMesh extends Mesh {
 
         boneTextureWidth = size;
         boneTextureHeight = size;
-
         boneMatrices = new Float32Array( boneTextureWidth * boneTextureHeight * 4 ); // 4 floats per RGBA pixel
-        boneTexture = new DataTexture( boneMatrices, boneTextureWidth, boneTextureHeight, RGBAFormat, FloatType );
+        boneTexture = new DataTexture( boneMatrices, boneTextureWidth, boneTextureHeight, RGBAFormat, type: FloatType );
         boneTexture.minFilter = NearestFilter;
         boneTexture.magFilter = NearestFilter;
         boneTexture.generateMipmaps = false;
@@ -107,7 +106,7 @@ class SkinnedMesh extends Mesh {
     }
 	}
 
-	addBone( [Bone bone] ) {
+	addBone( {Bone bone} ) {
 
 	  if ( bone == null ) {
 	    bone = new Bone( this );
@@ -119,7 +118,7 @@ class SkinnedMesh extends Mesh {
 
 	}
 
-	updateMatrixWorld([force = false]) {
+	updateMatrixWorld({force: false}) {
 
 	  if(matrixAutoUpdate) updateMatrix();
 
@@ -177,7 +176,7 @@ class SkinnedMesh extends Mesh {
 
 	pose() {
 
-	  updateMatrixWorld( true );
+	  updateMatrixWorld( force: true );
 
 	  var bim, bone;
 

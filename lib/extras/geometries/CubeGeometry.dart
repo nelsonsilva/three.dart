@@ -1,4 +1,4 @@
-part of ThreeD;
+part of three;
 
 /**
  * @author mr.doob / http://mrdoob.com/
@@ -158,12 +158,12 @@ class CubeGeometry extends Geometry {
 class CubeGeomSides{
   bool px, nx, py, ny, pz, nz;
 
-  CubeGeomSides( [this.px = true,
-                  this.nx = true,
-                  this.py = true,
-                  this.ny = true,
-                  this.pz = true,
-                  this.nz = true] );
+  CubeGeomSides( {this.px: true,
+                  this.nx: true,
+                  this.py: true,
+                  this.ny: true,
+                  this.pz: true,
+                  this.nz: true} );
 }
 
 

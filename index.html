@@ -5,30 +5,45 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"> 
 		<title>three.dart - Dart 3D library</title>
 		<style>
+			@font-face {
+				font-family: 'inconsolata';
+				src: url('files/inconsolata.woff') format('woff');
+				font-weight: normal;
+				font-style: normal;
+			}
+
 			body {
 
-				color: #808080;
 				background-color: #ffffff;
 
 				margin: 0px;
-				padding: 33px 5px 30px 230px;
+				padding: 19px 0px 30px 180px;
 
-				font-family: Monospace;
+				font-family: 'inconsolata';
+				font-size: 15px;
 
 			}
 
-			h1 { 
-				font-size: 30px;
-				margin-bottom: 10px;
+			h1 {
+				color: #444;
+				font-size: 25px;
+				font-weight: normal;
+
+				margin-top: 5px;
+				margin-bottom: 20px;
 			}
 
-			h2 { 
-				font-size: 20px;
-				margin-bottom: 15px;
+			h2 {
+				color: #999;
+				font-size: 18px;
+				font-weight: normal;
+
+				margin-top: 12px;
 			}
 
-			img {
-        margin: -4px;
+			a {
+				color: #2194CE;
+				font-size: 15px;
 			}
 
 			#panel	{
@@ -36,21 +51,35 @@
 				position: fixed;
 
 				left: 0px;
-				top: 0px;
+				top: 100px;
 
 				width: 200px;
 				height: 100%;
 
 				padding: 20px 0px 0px 20px;
 
-				font-size: 18px;
+			}
+
+			.images {
+
+				line-height: 0px;
+				margin-bottom: 40px;
 
 			}
 
+			#logo {
+				background: url('logo.png');
+				width: 100px;
+				height: 100px;
+				position: fixed;
+				background-size: 100%;
+				left: 20px;
+				top: 20px;
+			}
 		</style>
 	</head>
 	<body>
-
+		<div id="logo"></div>
 		<div id="panel">
 			<h1>three.dart</h1>
 			<br />
@@ -72,6 +101,8 @@
     <a href="example/webgl_geometry_shapes/WebGL_Geometry_Shapes.html"><img src="example/webgl_geometry_shapes/thumb_large.png"></a>
     <a href="example/webgl_interactive_cubes/WebGL_Interactive_Cubes.html"><img src="example/webgl_interactive_cubes/thumb_large.png"></a>
     <a href="example/webgl_performance/WebGL_Performance.html"><img src="example/webgl_performance/thumb_large.png"></a>
+    <a href="example/webgl_morphtargets/WebGL_MorphTargets.html"><img src="example/webgl_morphtargets/thumb_large.png"></a>
+    <a href="example/webgl_morphtargets_horse/WebGL_MorphTargets_Horse.html"><img src="example/webgl_morphtargets_horse/thumb_large.png"></a>
     
     <h2>CSS3D examples</h2>
     <a href="example/css3d_periodictable/CSS3D_Periodic_Table.html"><img src="example/css3d_periodictable/thumb_large.png"></a>
@@ -83,5 +114,6 @@
     <a href="example/canvas_interactive_cubes/Canvas_Interactive_Cubes.html"><img src="example/canvas_interactive_cubes/thumb_large.png"></a>
     <a href="example/canvas_lines/Canvas_Lines.html"><img src="example/canvas_lines/thumb_large.png"></a>
     <a href="example/canvas_camera_orthographic/Canvas_Camera_Orthographic.html"><img src="example/canvas_camera_orthographic/thumb_large.png"></a>
+
 	</body>
 </html>

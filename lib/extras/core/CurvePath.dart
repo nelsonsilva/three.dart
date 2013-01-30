@@ -1,4 +1,4 @@
-part of ThreeD;
+part of three;
 
 /**
  * @author zz85 / http://www.lab4games.net/zz85/blog
@@ -223,7 +223,7 @@ class CurvePath extends Curve {
 
 	addWrapPath( bendpath ) => _bends.add( bendpath );
 
-	getTransformedPoints( segments, [List bends = null] ) {
+	getTransformedPoints( segments, {List bends: null} ) {
 
 		var oldPts = this.getPoints( segments ); // getPoints getSpacedPoints
 		var i, il;

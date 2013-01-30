@@ -13,7 +13,7 @@ Texture loadTexture ( url, {mapping, onLoad, onError} ) {
 
 	var loader = new ImageLoader();
 
-	loader.addEventListener( 'load', function ( event ) {
+	loader.addEventListener( 'load',  ( event ) {
 
 		texture.image = event.content;
 		texture.needsUpdate = true;
@@ -22,7 +22,7 @@ Texture loadTexture ( url, {mapping, onLoad, onError} ) {
 
 	} );
 
-	loader.addEventListener( 'error', function ( event ) {
+	loader.addEventListener( 'error',  ( event ) {
 
 		if ( onError != null ) onError( event.message );
 
@@ -35,14 +35,14 @@ Texture loadTexture ( url, {mapping, onLoad, onError} ) {
 
 }
 
-Texture loadCompressedTexture( url, [mapping, onLoad, onError] ) {
+Texture loadCompressedTexture( url, {mapping, onLoad, onError} ) {
 
   var texture = new CompressedTexture();
   texture.mapping = mapping;
 
   var request = new HttpRequest();
 
-  request.on.load.add( (Event e) {
+  request.onLoad.listen( (Event e) {
 
     var buffer = request.response;
     var dds = parseDDS( buffer, true );
@@ -65,7 +65,7 @@ Texture loadCompressedTexture( url, [mapping, onLoad, onError] ) {
 
   });
 
-  request.on.error.add(onError);
+  request.onError.listen(onError);
 
   request.open( 'GET', url, true );
   request.responseType = "arraybuffer";
@@ -75,27 +75,27 @@ Texture loadCompressedTexture( url, [mapping, onLoad, onError] ) {
 
 }
 
-Texture loadTextureCube ( array, mapping, onLoad ) {
+
+Texture loadTextureCube ( array, [mapping = null, onLoad ]) {
 
 	var i, l;
-	List<ImageElement> images = [];
-
-	var texture = new Texture( images, mapping );
+	l = array.length;
+	ImageList images = new ImageList(l);
+	var texture = new Texture( images );
+	mapping = (mapping == null)? texture.mapping:mapping;
 
 	texture.flipY = false;
 
-	// TODO - List does not have loadCount
-	(images as dynamic).loadCount = 0;
+	images.loadCount = 0;
 
-	l = array.length;
 	for ( i = 0; i < l; ++ i ) {
 
 		images[ i ] = new ImageElement();
-		images[ i ].on.load.add((_) {
+		images[ i ].onLoad.listen((_) {
 
-		  (images as dynamic).loadCount += 1;
+		  images.loadCount += 1;
 
-			if ( (images as dynamic).loadCount == 6 ) {
+			if ( images.loadCount == 6 ) {
 
 				texture.needsUpdate = true;
 				if ( onLoad != null ) onLoad();

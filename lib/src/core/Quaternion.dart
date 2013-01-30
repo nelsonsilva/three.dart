@@ -1,4 +1,4 @@
-part of ThreeD;
+part of three;
 
 /**
  * @author mikael emtinger / http://gomo.se/
@@ -224,7 +224,7 @@ class Quaternion implements IVector4 {
     return this;
   }
 
-  Vector3 multiplyVector3( Vector3 vec, [Vector3 dest = null] ) {
+  Vector3 multiplyVector3( Vector3 vec, {Vector3 dest: null} ) {
     if( dest == null ) { dest = vec; }
 
     num _x    = vec.x,  _y  = vec.y,  _z  = vec.z,

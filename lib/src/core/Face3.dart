@@ -1,4 +1,4 @@
-part of ThreeD;
+part of three;
 
 /**
  * @author mr.doob / http://mrdoob.com/
@@ -40,9 +40,9 @@ class Face3 implements IFace3 {
 
     face.materialIndex = this.materialIndex;
 
-    face.vertexNormals = vertexNormals.map((Vector3 v) => v.clone());
-    face.vertexColors = vertexColors.map((Vector3 v) => v.clone());
-    face.vertexTangents = vertexTangents.map((Vector3 v) => v.clone());
+    face.vertexNormals = vertexNormals.mappedBy((Vector3 v) => v.clone()).toList();
+    face.vertexColors = vertexColors.mappedBy((Vector3 v) => v.clone()).toList();
+    face.vertexTangents = vertexTangents.mappedBy((Vector3 v) => v.clone()).toList();
 
     return face;
 

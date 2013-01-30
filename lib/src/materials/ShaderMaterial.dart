@@ -1,4 +1,4 @@
-part of ThreeD;
+part of three;
 
 class ShaderMaterial extends Material {
 
@@ -68,7 +68,8 @@ class ShaderMaterial extends Material {
 
                     overdraw: false,
 
-                    visible: true })
+                    visible: true,
+                    this.lights: false})
                     : super(  name: name,
                               side: side,
                               opacity: opacity,

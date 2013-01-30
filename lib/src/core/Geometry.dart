@@ -1,4 +1,4 @@
-part of ThreeD;
+part of three;
 
 /**
  * @author mr.doob / http://mrdoob.com/
@@ -26,7 +26,8 @@ class Geometry {
   List faceUvs;
   List<List> faceVertexUvs;
 
-  List morphTargets, morphColors, morphNormals;
+  List<MorphTarget> morphTargets;
+  List morphColors, morphNormals;
   List skinWeights, skinIndices;
 
   List<Vector3> __tmpVertices;
@@ -224,8 +225,8 @@ class Geometry {
             n = new Vector3(),
             t;
 
-    List<Vector3> tan1 = vertices.map((_) => new Vector3()) as List,
-                  tan2 = vertices.map((_) => new Vector3()) as List;
+    List<Vector3> tan1 = vertices.mappedBy((_) => new Vector3()).toList() as List,
+                  tan2 = vertices.mappedBy((_) => new Vector3()).toList() as List;
 
     var handleTriangle = ( context, a, b, c, ua, ub, uc ) {
 
@@ -451,14 +452,14 @@ class Geometry {
 
             // console.log('faces', face.a, face.b, face.c, face.d, 'dup at', k);
 
-            o.splice( k, 1 );
+            o.removeRange( k, 1 );
 
             this.faces[ i ] = new THREE.Face3( o[0], o[1], o[2], face.normal, face.color, face.materialIndex );
 
             for ( j = 0, jl = this.faceVertexUvs.length; j < jl; j ++ ) {
 
               u = this.faceVertexUvs[ j ][ i ];
-              if ( u ) u.splice( k, 1 );
+              if ( u ) u.removeRange( k, 1 );
 
             }
 
@@ -501,7 +502,7 @@ class Geometry {
 class BoundingBox {
   Vector3 min;
   Vector3 max;
-  BoundingBox([this.min, this.max]);
+  BoundingBox({this.min, this.max});
 }
 
 class BoundingSphere {

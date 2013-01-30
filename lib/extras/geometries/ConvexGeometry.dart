@@ -1,4 +1,4 @@
-part of ThreeD;
+part of three;
 
 class ConvexGeometry extends Geometry {
   ConvexGeometry(List vertices) : super() {
@@ -82,7 +82,7 @@ class ConvexGeometry extends Geometry {
 
     // Push vertices into `this.vertices`, skipping those inside the hull
     var id = 0;
-    var newId = new List( vertices.length ); // map from old vertex id to new id
+    var newId = new List.fixedLength(vertices.length ); // map from old vertex id to new id
 
     for ( var i = 0; i < faces.length; i++ ) {
 

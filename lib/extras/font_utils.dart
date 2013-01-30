@@ -266,8 +266,8 @@ class FontFace {
 
   num resolution;
 
-  FontFace( [ this.size = 150,
-              this.divisions = 10] ) : glyphs = {};
+  FontFace( { this.size: 150,
+              this.divisions: 10} ) : glyphs = {};
 
   Map operator [](String weight) => _data[weight];
 }
@@ -297,7 +297,7 @@ List<List<Vector2>> process( List<Vector2> contour, bool indices ) {
   if ( n < 3 ) return null;
 
   var result = [],
-    verts = new List(n),
+    verts = new List.fixedLength(n),
     vertIndices = [];
 
   /* we want a counter-clockwise polygon in verts */

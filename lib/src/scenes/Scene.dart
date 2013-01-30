@@ -1,4 +1,4 @@
-part of ThreeD;
+part of three;
 
 /**
  * @author mr.doob / http://mrdoob.com/
@@ -46,9 +46,7 @@ class Scene extends Object3D {
         int i = __objectsRemoved.indexOf( object );
 
         if ( i != -1 ) {
-          //TODO: removeRange replaces splice?
           __objectsRemoved.removeRange(i, 1);
-          //__objectsRemoved.splice( i, 1 );
         }
       }
     }

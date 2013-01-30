@@ -1,4 +1,4 @@
-part of ThreeD;
+part of three;
 
 /**
  * @author alteredq / http://alteredqualia.com/
@@ -34,18 +34,18 @@ class Loader {
   static addStatusElement() {
     var e = new Element.tag('div');
     e.style
-      ..position("absolute")
-      ..right("0px")
-      ..top("0px")
-      ..fontSize("0.8em")
-      ..textAlign("left")
-      ..background("rgba(0,0,0,0.25)")
-      ..color("#fff")
-      ..width("120px")
-      ..padding("0.5em 0.5em 0.5em 0.5em")
-      ..zIndex(1000);
+      ..position = "absolute"
+      ..right = "0px"
+      ..top = "0px"
+      ..fontSize = "0.8em"
+      ..textAlign = "left"
+      ..background = "rgba(0,0,0,0.25)"
+      ..color = "#fff"
+      ..width = "120px"
+      ..padding = "0.5em 0.5em 0.5em 0.5em"
+      ..zIndex = "1000";
 
-    e.innerHTML = "Loading ...";
+    e.innerHtml = "Loading ...";
 
     return e;
   }
@@ -65,7 +65,7 @@ class Loader {
 
     }
 
-    statusDomElement.innerHTML = message;
+    statusDomElement.innerHtml = message;
 
   }
 
@@ -115,7 +115,7 @@ class Loader {
 
     var image = new ImageElement();
 
-    image.on.load.add((Event evt) {
+    image.onLoad.listen((Event evt) {
 
       if ( !_is_pow2( image.width ) || !_is_pow2( image.height ) ) {
 
@@ -207,7 +207,10 @@ class Loader {
 
   }
 
-  _rgb2hex( rgb ) => ( rgb[ 0 ] * 255 << 16 ) + ( rgb[ 1 ] * 255 << 8 ) + rgb[ 2 ] * 255;
+  _rgb2hex( rgb ) =>
+      ( (rgb[ 0 ] * 255).toInt() << 16 ) +
+      ( (rgb[ 1 ] * 255).toInt() << 8 ) +
+      rgb[ 2 ].toInt() * 255;
 
 
   _createMaterial( Map m, String texturePath ) {

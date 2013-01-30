@@ -1,5 +1,5 @@
-part of ThreeD;
+part of three;
 
 abstract class Renderer {
-  abstract void render( Scene scene, Camera camera );
+  void render( Scene scene, Camera camera );
 }

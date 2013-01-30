@@ -1,4 +1,4 @@
-part of ThreeD;
+part of three;
 
 /**************************************************************
  *	Abstract Curve base class
@@ -11,7 +11,7 @@ abstract class Curve<V extends IVector2> {
 
 	// Virtual base class method to overwrite and implement in subclasses
 	//	- t [0 .. 1]
-  abstract V getPoint(t);
+  V getPoint(t);
 
 	// Get point at relative position in curve according to arc length
 	// - u [0 .. 1]
@@ -66,7 +66,7 @@ abstract class Curve<V extends IVector2> {
 	num get length => getLengths().last;
 
 	// Get list of cumulative segment lengths
-	List getLengths( [num divisions = null] ) {
+	List getLengths( {num divisions: null} ) {
 
 		if (divisions == null) divisions = (_arcLengthDivisions != null) ? (_arcLengthDivisions): 200;
 
@@ -118,7 +118,7 @@ abstract class Curve<V extends IVector2> {
 	}
 
 	// Given u ( 0 .. 1 ), get a t to find p. This gives you points which are equi distance
-	getUtoTmapping( u, [distance = null] ) {
+	getUtoTmapping( u, {distance: null} ) {
 
 		var arcLengths = getLengths();
 
