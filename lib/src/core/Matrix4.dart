@@ -107,35 +107,26 @@ class Matrix4 {
     var be = b.elements;
     var te = elements;
 
-    var a11 = ae[0], a12 = ae[4], a13 = ae[8], a14 = ae[12];
-    var a21 = ae[1], a22 = ae[5], a23 = ae[9], a24 = ae[13];
-    var a31 = ae[2], a32 = ae[6], a33 = ae[10], a34 = ae[14];
-    var a41 = ae[3], a42 = ae[7], a43 = ae[11], a44 = ae[15];
+    var al = [new Float32x4(ae[0], ae[4], ae[8], ae[12]),
+             new Float32x4(ae[1], ae[5], ae[9], ae[13]),
+             new Float32x4(ae[2], ae[6], ae[10], ae[14]),
+             new Float32x4(ae[3], ae[7], ae[11], ae[15])];
 
-    var b11 = be[0], b12 = be[4], b13 = be[8], b14 = be[12];
-    var b21 = be[1], b22 = be[5], b23 = be[9], b24 = be[13];
-    var b31 = be[2], b32 = be[6], b33 = be[10], b34 = be[14];
-    var b41 = be[3], b42 = be[7], b43 = be[11], b44 = be[15];
+    var b1 = new Float32x4(be[0], be[1], be[2], be[3]);
+    var b2 = new Float32x4(be[4], be[5], be[6], be[7]);
+    var b3 = new Float32x4(be[8], be[9], be[10], be[11]);
+    var b4 = new Float32x4(be[12], be[13], be[14], be[15]);
 
-    te[0] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
-    te[4] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;
-    te[8] = a11 * b13 + a12 * b23 + a13 * b33 + a14 * b43;
-    te[12] = a11 * b14 + a12 * b24 + a13 * b34 + a14 * b44;
-
-    te[1] = a21 * b11 + a22 * b21 + a23 * b31 + a24 * b41;
-    te[5] = a21 * b12 + a22 * b22 + a23 * b32 + a24 * b42;
-    te[9] = a21 * b13 + a22 * b23 + a23 * b33 + a24 * b43;
-    te[13] = a21 * b14 + a22 * b24 + a23 * b34 + a24 * b44;
-
-    te[2] = a31 * b11 + a32 * b21 + a33 * b31 + a34 * b41;
-    te[6] = a31 * b12 + a32 * b22 + a33 * b32 + a34 * b42;
-    te[10] = a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43;
-    te[14] = a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44;
-
-    te[3] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
-    te[7] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
-    te[11] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
-    te[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
+    for (var i = 0; i < 4; i++) {
+      var ab1 = al[i] * b1,
+          ab2 = al[i] * b2,
+          ab3 = al[i] * b3,
+          ab4 = al[i] * b4;
+      te[0+i] = ab1.x + ab1.y + ab1.z + ab1.w;
+      te[4+i] = ab2.x + ab2.y + ab2.z + ab2.w;
+      te[8+i] = ab3.x + ab3.y + ab3.z + ab3.w;
+      te[12+i] = ab4.x + ab4.y + ab4.z + ab4.w;
+    }
 
     return this;
   }

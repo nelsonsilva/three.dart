@@ -10,143 +10,23 @@ part of three;
  * @author rob silverton / http://www.unwrong.com/
  */
 
-class Vector4 implements IVector4 {
-  double _x;
-  double _y;
-  double _z;
-  double _w;
+class Vector4 extends SIMDVector<Vector4> implements IVector4 {
+
+  Vector4( [num x = 0, num y = 0, num z = 0, num w = 1] ) : super(x, y, z, w);
 
 
-  Vector4( [num x = 0, num y = 0, num z = 0, num w = 1] ) {
-    setValues(x, y, z, w);
-  }
+  setValues( num x, num y, num z, num w ) => _setValues(x, y, z, w);
 
-  setValues( num x, num y, num z, num w ) {
-    _x = x.toDouble();
-    _y = y.toDouble();
-    _z = z.toDouble();
-    _w = w.toDouble();
+  copy( SIMDVector v ) {
+    super.copy(v);
 
-    return this;
-  }
-
-  set x(num x) { _x = x.toDouble();}
-  get x => _x;
-
-  set y(num y) { _y = y.toDouble();}
-  get y => _y;
-
-  set z(num z) { _z = z.toDouble();}
-  get z => _z;
-
-  set w(num w) { _w = w.toDouble();}
-  get w => _w;
-
-  //TODO: Interface IVector3 has been introduced here due to line 216 in Projector.dart:
-  // _vertex.positionScreen.copy( _vertex.positionWorld );
-  // ..where a Vector4 is instructed to copy a Vector3. Obviously this doesn't cause any issues in JS,
-  // but as the Vector classes are currently unrelated, causes an issue in Dart.
-  // Interfaces have been used to avoid introducing issues with any existing "if (Vector4/3/2)" logic.
-  // Inheritance should probably eventually be used instead, and such logic should be checked to cascade (e.g. 4, then 3, then 2).
-  copy( IVector3 v ) {
-    x = v.x;
-    y = v.y;
-    z = v.z;
-
-    if ( v is IVector4 ) {
-     Vector4 v4 = v;
-     w = v4.w;
-    } else {
+    if ( v is IVector3 ) {
       w = 1.0;
     }
   }
 
 
-  Vector4 add( Vector4 v1, Vector4 v2 ) {
-    x = v1.x + v2.x;
-    y = v1.y + v2.y;
-    z = v1.z + v2.z;
-    w = v1.w + v2.w;
-
-    return this;
-  }
-
-  Vector4 addSelf(Vector4 v ) {
-    x += v.x;
-    y += v.y;
-    z += v.z;
-    w += v.w;
-
-    return this;
-  }
-
-  Vector4 sub( Vector4 v1, Vector4 v2 ) {
-    x = v1.x - v2.x;
-    y = v1.y - v2.y;
-    z = v1.z - v2.z;
-    w = v1.w - v2.w;
-
-    return this;
-  }
-
-  Vector4 subSelf( Vector4 v ) {
-    x -= v.x;
-    y -= v.y;
-    z -= v.z;
-    w -= v.w;
-
-    return this;
-  }
-
-  Vector4 multiplyScalar( num s ) {
-    x *= s;
-    y *= s;
-    z *= s;
-    w *= s;
-
-    return this;
-  }
-
-  Vector4 divideScalar( num s ) {
-    if ( s != null ) {
-      x /= s;
-      y /= s;
-      z /= s;
-      w /= s;
-    } else {
-      x = 0;
-      y = 0;
-      z = 0;
-      w = 1;
-    }
-
-    return this;
-  }
-
-  Vector4 negate() => multiplyScalar( -1 );
-
-  num dot( Vector4 v ) => x * v.x + y * v.y + z * v.z + w * v.w;
-
-  num lengthSq() => dot( this );
-
-  num length() => Math.sqrt( lengthSq() );
-
-  Vector4 normalize() => divideScalar( length() );
-
-  Vector4 setLength( l ) => normalize().multiplyScalar( l );
-
-  Vector4 lerpSelf( Vector4 v, num alpha ) {
-    x += ( v.x - x ) * alpha;
-    y += ( v.y - y ) * alpha;
-    z += ( v.z - z ) * alpha;
-    w += ( v.w - w ) * alpha;
-
-    return this;
-
-  }
-
-  Vector4 clone()
-  {
+  Vector4 clone() {
     return new Vector4( x, y, z, w );
   }
 

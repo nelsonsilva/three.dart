@@ -23,6 +23,7 @@ part 'src/cameras/Camera.dart';
 part 'src/cameras/PerspectiveCamera.dart';
 part 'src/cameras/OrthographicCamera.dart';
 
+part 'src/core/SIMDVector.dart';
 part 'src/core/Vector3.dart';
 part 'src/core/Matrix3.dart';
 part 'src/core/Matrix4.dart';
